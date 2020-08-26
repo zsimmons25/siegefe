@@ -51,12 +51,12 @@ class App extends Component {
     const newItems = this.state.operator;
     return newItems.slice(s,e).map(item => (
       <>
-        <span
+        <ol 
           operator={item.operator} onClick={() => this.viewItem(item)}>
             <img src={require(`./Images/${item.operator}_Badge.png`)} alt="badge"></img>
             {item.operator}
             <img src={require(`./Images/${item.operator}.png`)} alt="op"></img>
-        </span>
+        </ol>
       </>
     ));
   };
@@ -65,15 +65,15 @@ class App extends Component {
     let releaseops = []
     if (this.state.faction >=20) {
       factionops = (
-        <ul className="list-group list-group-flush">
+        <ol>
           {this.renderOps(this.state.faction,(this.state.faction + 2))}
-        </ul>
+        </ol>
       )
     }else{
       factionops = (
-        <ul className="list-group list-group-flush">
+        <ol>
           {this.renderOps(this.state.faction,(this.state.faction + 4))}
-        </ul>
+        </ol>
       )
     }
     if ( this.state.viewbyfaction ) {
@@ -99,23 +99,23 @@ class App extends Component {
     }
     if (this.state.release === 0) {
       releaseops = (
-        <ul className="list-group list-group-flush">
+        <ol>
           {this.renderOps(0,20)}
-        </ul>
+        </ol>
       )
     }
     if (this.state.release === 1) {
       releaseops = (
-        <ul className="list-group list-group-flush">
+        <ol>
           {this.renderOps(20,22)}
-        </ul>
+        </ol>
       )
     }
     if (this.state.release === 2) {
       releaseops = (
-        <ul className="list-group list-group-flush">
+        <ol>
           {this.renderOps(22,24)}
-        </ul>
+        </ol>
       )
     }
     if ( this.state.viewbyrelease ) {
@@ -139,9 +139,9 @@ class App extends Component {
       return (
       <main className="content">
         <button className="btn" onClick={this.viewAll}>Go Back</button>
-        <ul className="list-group list-group-flush">
+        <ol>
           {this.renderOps(0,25)}
-        </ul>
+        </ol>
         {this.state.modal ? (
           <Modal
             activeItem={this.state.activeItem}
@@ -152,7 +152,10 @@ class App extends Component {
       )
     }
     return (
-      <main className="content">
+      <main style={{
+        justifyContent: "center",
+        alignItems: "center",
+      }}>
         <h1 className="text text-uppercase text-center my-4">R6 Counter</h1>
         <h1 className="text text-uppercase text-center my-4">
           <button className="btn btn-default" onClick={this.viewFaction}>View by Faction</button>
