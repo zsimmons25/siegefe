@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Modal from "../components/Modal";
 import axios from "axios";
 import Nav from "../components/Nav";
+import { Link } from 'react-router-dom';
 
 
 class Operators extends Component {
@@ -15,8 +16,8 @@ class Operators extends Component {
         viewbyfaction: this.props.viewbyfaction,
         viewbyrelease: this.props.viewbyrelease,
         viewall: this.props.viewall,
-        faction: 50,
-        release: 50
+        faction: this.props.faction,
+        release: this.props.release
       };
     }
     componentDidMount() {
@@ -27,21 +28,6 @@ class Operators extends Component {
     };
     viewItem = item => {
       this.setState({ activeItem: item, modal: !this.state.modal });
-    };
-    viewFaction = () => {
-      this.setState({ viewbyfaction: !this.state.viewbyfaction });
-    };
-    viewRelease = () => {
-      this.setState({ viewbyrelease: !this.state.viewbyrelease });
-    };
-    viewAll = () => {
-      this.setState({ viewall: !this.state.viewall });
-    };
-    selectFaction = (f) => {
-      this.setState({ faction: f });
-    };
-    selectRelease = (r) => {
-      this.setState({ release: r });
     };
     refreshList = () => {
       axios
@@ -82,13 +68,27 @@ class Operators extends Component {
         return (
         <main className="content">
           <Nav/>
-          <button className="btn" onClick={() => this.selectFaction(0)}>FBI</button>
-          <button className="btn" onClick={() => this.selectFaction(4)}>GIGN</button>
-          <button className="btn" onClick={() => this.selectFaction(8)}>SAS</button>
-          <button className="btn" onClick={() => this.selectFaction(12)}>Spetsnaz</button>
-          <button className="btn" onClick={() => this.selectFaction(16)}>GSG 9</button>
-          <button className="btn" onClick={() => this.selectFaction(20)}>JTF-2</button>
-          <button className="btn" onClick={() => this.selectFaction(22)}>SEALS</button>
+          <Link to="/operators/faction/fbi">
+          <button className="btn">FBI</button>
+          </Link>
+          <Link to="/operators/faction/gign">
+          <button className="btn">GIGN</button>
+          </Link>
+          <Link to="/operators/faction/sas">
+          <button className="btn">SAS</button>
+          </Link>
+          <Link to="/operators/faction/spetsnaz">
+          <button className="btn">Spetsnaz</button>
+          </Link>
+          <Link to="/operators/faction/gsg9">
+          <button className="btn">GSG 9</button>
+          </Link>
+          <Link to="/operators/faction/jtf2">
+          <button className="btn">JTF-2</button>
+          </Link>
+          <Link to="/operators/faction/seals">
+          <button className="btn">SEALS</button>
+          </Link>
           {factionops}
           {this.state.modal ? (
             <Modal
@@ -124,9 +124,15 @@ class Operators extends Component {
         return(
           <main>
             <Nav/>
-            <button className="btn" onClick={() => this.selectRelease(0)}>Base</button>
-            <button className="btn" onClick={() => this.selectRelease(1)}>Year1</button>
-            <button className="btn" onClick={() => this.selectRelease(2)}>Year2</button>
+            <Link to="/operators/release/b">
+            <button className="btn">Base</button>
+            </Link>
+            <Link to="/operators/release/y1">
+            <button className="btn">Year1</button>
+            </Link>
+            <Link to="/operators/release/y2">
+            <button className="btn">Year2</button>
+            </Link>
             {releaseops}
             {this.state.modal ? (
               <Modal
