@@ -38,14 +38,12 @@ class Operators extends Component {
     renderOps = (s,e) => {
       const newItems = this.state.operator;
       return newItems.slice(s,e).map(item => (
-        <>
-          <ol 
+          <div className='flex items-center w-80 mx-5 bg-slate-800 text-slate-200'
             operator={item.operator} onClick={() => this.viewItem(item)}>
               <img src={require(`../Images/${item.operator}_Badge.png`)} alt="badge"></img>
               {item.operator}
               <img src={require(`../Images/${item.operator}.png`)} alt="op"></img>
-          </ol>
-        </>
+          </div>
       ));
     };
     render() {
@@ -53,13 +51,13 @@ class Operators extends Component {
       let releaseops = []
       if (this.state.faction >=20) {
         factionops = (
-          <ol>
+          <ol className='flex'>
             {this.renderOps(this.state.faction,(this.state.faction + 2))}
           </ol>
         )
       }else{
         factionops = (
-          <ol>
+          <ol className='flex'>
             {this.renderOps(this.state.faction,(this.state.faction + 4))}
           </ol>
         )
@@ -68,27 +66,29 @@ class Operators extends Component {
         return (
         <main className="content">
           <Nav/>
-          <Link to="/operators/faction/fbi">
-          <button className="btn">FBI</button>
-          </Link>
-          <Link to="/operators/faction/gign">
-          <button className="btn">GIGN</button>
-          </Link>
-          <Link to="/operators/faction/sas">
-          <button className="btn">SAS</button>
-          </Link>
-          <Link to="/operators/faction/spetsnaz">
-          <button className="btn">Spetsnaz</button>
-          </Link>
-          <Link to="/operators/faction/gsg9">
-          <button className="btn">GSG 9</button>
-          </Link>
-          <Link to="/operators/faction/jtf2">
-          <button className="btn">JTF-2</button>
-          </Link>
-          <Link to="/operators/faction/seals">
-          <button className="btn">SEALS</button>
-          </Link>
+          <h2 className='text text-center my-4 bg-slate-800 text-slate-200'>
+            <Link to="/operators/faction/fbi">
+            <button className="btn btn-default mx-4">FBI</button>
+            </Link>
+            <Link to="/operators/faction/gign">
+            <button className="btn btn-default mx-4">GIGN</button>
+            </Link>
+            <Link to="/operators/faction/sas">
+            <button className="btn btn-default mx-4">SAS</button>
+            </Link>
+            <Link to="/operators/faction/spetsnaz">
+            <button className="btn btn-default mx-4">Spetsnaz</button>
+            </Link>
+            <Link to="/operators/faction/gsg9">
+            <button className="btn btn-default mx-4">GSG 9</button>
+            </Link>
+            <Link to="/operators/faction/jtf2">
+            <button className="btn btn-default mx-4">JTF-2</button>
+            </Link>
+            <Link to="/operators/faction/seals">
+            <button className="btn btn-default mx-4">SEALS</button>
+            </Link>
+          </h2>
           {factionops}
           {this.state.modal ? (
             <Modal
@@ -124,15 +124,17 @@ class Operators extends Component {
         return(
           <main>
             <Nav/>
-            <Link to="/operators/release/b">
-            <button className="btn">Base</button>
-            </Link>
-            <Link to="/operators/release/y1">
-            <button className="btn">Year1</button>
-            </Link>
-            <Link to="/operators/release/y2">
-            <button className="btn">Year2</button>
-            </Link>
+            <h2 className='text text-center my-4 bg-slate-800 text-slate-200'>
+              <Link to="/operators/release/b">
+              <button className="btn btn-default mx-4">Base</button>
+              </Link>
+              <Link to="/operators/release/y1">
+              <button className="btn btn-default mx-4">Year1</button>
+              </Link>
+              <Link to="/operators/release/y2">
+              <button className="btn btn-default mx-4">Year2</button>
+              </Link>
+            </h2>
             {releaseops}
             {this.state.modal ? (
               <Modal
@@ -147,7 +149,7 @@ class Operators extends Component {
         return (
         <main className="content">
           <Nav/>
-          <ol>
+          <ol className='flex flex-wrap'>
             {this.renderOps(0,25)}
           </ol>
           {this.state.modal ? (

@@ -13,15 +13,15 @@ class Nav extends Component {
     }
     render() {
       return (
-          <h1 className="text text-uppercase text-center my-4">
+          <h1 className='text text-uppercase text-center my-4 bg-slate-800 text-slate-200'>
             <Link to="/operators/faction">
-            <button className="btn btn-default" onClick={this.viewFaction}>View by Faction</button>
+            <button className="btn btn-default mx-4" onClick={this.viewFaction}>View by Faction</button>
             </Link>
             <Link to="/operators/release">
-            <button className="btn btn-default" onClick={this.viewRelease}>View by Release</button>
+            <button className="btn btn-default mx-4" onClick={this.viewRelease}>View by Release</button>
             </Link>
             <Link to="/operators/all">
-            <button className="btn btn-default" onClick={this.viewAll}>View All</button>
+            <button className="btn btn-default mx-4" onClick={this.viewAll}>View All</button>
             </Link>
           </h1>
       );
