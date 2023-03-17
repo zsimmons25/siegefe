@@ -38,11 +38,13 @@ class Operators extends Component {
     renderOps = (s,e) => {
       const newItems = this.state.operator;
       return newItems.slice(s,e).map(item => (
-          <div className='flex items-center w-80 mx-5 bg-slate-800 text-slate-200'
+          <div className='relative flex items-center mt-1 w-72 bg-slate-800 text-slate-200 rounded-md border-slate-900 border-2'
             operator={item.operator} onClick={() => this.viewItem(item)}>
-              <img src={require(`../Images/${item.operator}_Badge.png`)} alt="badge"></img>
-              {item.operator}
-              <img src={require(`../Images/${item.operator}.png`)} alt="op"></img>
+            <h2 className="flex bg-black bg-opacity-40 w-full h-9 mt-2 absolute bottom-0 text-xl">
+              <img className='w-9 h-9' src={require(`../Images/${item.operator}_Badge.png`)} alt="badge"></img>
+              <p className='mt-1'>{item.operator}</p>
+            </h2>
+            <img className='w-72 h-60' src={require(`../Images/${item.operator}.png`)} alt="op"></img>
           </div>
       ));
     };
@@ -51,13 +53,13 @@ class Operators extends Component {
       let releaseops = []
       if (this.state.faction >=20) {
         factionops = (
-          <ol className='flex'>
+          <ol className='flex flex-wrap justify-center space-x-2'>
             {this.renderOps(this.state.faction,(this.state.faction + 2))}
           </ol>
         )
       }else{
         factionops = (
-          <ol className='flex'>
+          <ol className='flex flex-wrap justify-center space-x-2'>
             {this.renderOps(this.state.faction,(this.state.faction + 4))}
           </ol>
         )
@@ -101,21 +103,21 @@ class Operators extends Component {
       }
       if (this.state.release === 0) {
         releaseops = (
-          <ol>
+          <ol className='flex flex-wrap justify-center space-x-2'>
             {this.renderOps(0,20)}
           </ol>
         )
       }
       if (this.state.release === 1) {
         releaseops = (
-          <ol>
+          <ol className='flex flex-wrap justify-center space-x-2'>
             {this.renderOps(20,22)}
           </ol>
         )
       }
       if (this.state.release === 2) {
         releaseops = (
-          <ol>
+          <ol className='flex flex-wrap justify-center space-x-2'>
             {this.renderOps(22,24)}
           </ol>
         )
@@ -149,7 +151,7 @@ class Operators extends Component {
         return (
         <main className="content">
           <Nav/>
-          <ol className='flex flex-wrap'>
+          <ol className='flex flex-wrap justify-center space-x-2'>
             {this.renderOps(0,25)}
           </ol>
           {this.state.modal ? (

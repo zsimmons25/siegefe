@@ -1,10 +1,24 @@
 import Operators from "../components/Operator"
+import Admin from "../components/Admin"
+
 
 const routes = [
   {
     path: "/",
     component: Operators,
     viewbyfaction: true,
+  },
+  {
+    path: "/login",
+    component: Admin,
+    viewlogin: true,
+    loggedin: false,
+  },
+  {
+    path: "/dashboard",
+    component: Admin,
+    viewlogin: false,
+    loggedin: true,
   },
   {
     path: "/operators",

@@ -9,6 +9,7 @@ class Nav extends Component {
         viewbyfaction: this.props.viewbyfaction,
         viewbyrelease: this.props.viewbyrelease,
         viewall: this.props.viewall,
+        viewlogin: this.props.viewlogin,
       };
     }
     render() {
