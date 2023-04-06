@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import Modal from "../components/Modal";
+import Modal from "./Modal";
 import axios from "axios";
-import Nav from "../components/Nav";
+import Nav from "./Nav";
 import { Link } from 'react-router-dom';
+import { release } from "os";
 
 
-class Operators extends Component {
+class Operators extends Component <any, any> {
     constructor(props) {
       super(props);
       this.state = {
@@ -35,14 +36,22 @@ class Operators extends Component {
         .then(res => this.setState({ operator: res.data }))
         .catch(err => console.log(err));
     };
-    renderOps = (s,e) => {
+    renderOps = (t,f) => {
       const newItems = this.state.operator;
-      return newItems.slice(s,e).map(item => (
+      let filteredItems;
+      if (t === 'faction'){
+        filteredItems = newItems.filter(item => item.faction === f)
+      } else if (t === 'release') {
+        filteredItems = newItems.filter(item => item.release === f)
+      } else {
+        filteredItems = newItems
+      }
+      return filteredItems.map(item => (
           <div className='relative flex items-center mt-1 w-72 bg-slate-800 text-slate-200 rounded-md border-slate-900 border-2'
-            operator={item.operator} onClick={() => this.viewItem(item)}>
+            operator={item.operator} key={item.id} onClick={() => this.viewItem(item)}>
             <h2 className="flex bg-black bg-opacity-40 w-full h-9 mt-2 absolute bottom-0 text-xl">
               <img className='w-9 h-9' src={require(`../Images/${item.operator}_Badge.png`)} alt="badge"></img>
-              <p className='mt-1'>{item.operator}</p>
+              <strong className='mt-1'>{item.operator}</strong>
             </h2>
             <img className='w-72 h-60' src={require(`../Images/${item.operator}.png`)} alt="op"></img>
           </div>
@@ -51,19 +60,11 @@ class Operators extends Component {
     render() {
       let factionops = []
       let releaseops = []
-      if (this.state.faction >=20) {
-        factionops = (
-          <ol className='flex flex-wrap justify-center space-x-2'>
-            {this.renderOps(this.state.faction,(this.state.faction + 2))}
-          </ol>
-        )
-      }else{
-        factionops = (
-          <ol className='flex flex-wrap justify-center space-x-2'>
-            {this.renderOps(this.state.faction,(this.state.faction + 4))}
-          </ol>
-        )
-      }
+      factionops = (
+        <ol className='flex flex-wrap justify-center space-x-2'>
+          {this.renderOps('faction',this.state.faction)}
+        </ol>
+      )
       if ( this.state.viewbyfaction ) {
         return (
         <main className="content">
@@ -101,27 +102,11 @@ class Operators extends Component {
         </main>
         )
       }
-      if (this.state.release === 0) {
-        releaseops = (
-          <ol className='flex flex-wrap justify-center space-x-2'>
-            {this.renderOps(0,20)}
-          </ol>
-        )
-      }
-      if (this.state.release === 1) {
-        releaseops = (
-          <ol className='flex flex-wrap justify-center space-x-2'>
-            {this.renderOps(20,22)}
-          </ol>
-        )
-      }
-      if (this.state.release === 2) {
-        releaseops = (
-          <ol className='flex flex-wrap justify-center space-x-2'>
-            {this.renderOps(22,24)}
-          </ol>
-        )
-      }
+      releaseops = (
+        <ol className='flex flex-wrap justify-center space-x-2'>
+          {this.renderOps('release',this.state.release)}
+        </ol>
+      )
       if ( this.state.viewbyrelease ) {
         return(
           <main>
@@ -152,7 +137,7 @@ class Operators extends Component {
         <main className="content">
           <Nav/>
           <ol className='flex flex-wrap justify-center space-x-2'>
-            {this.renderOps(0,25)}
+            {this.renderOps('all','all')}
           </ol>
           {this.state.modal ? (
             <Modal

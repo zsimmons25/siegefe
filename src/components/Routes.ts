@@ -1,5 +1,9 @@
-import Operators from "../components/Operator"
-import Admin from "../components/Admin"
+import Operators from "./Operator"
+import Dashboard from "./Dashboard"
+import EditOps from "./EditOps"
+import ImgMng from "./ImgMng"
+import Approval from "./Approval"
+import Login from "../functions/Login"
 
 
 const routes = [
@@ -9,16 +13,30 @@ const routes = [
     viewbyfaction: true,
   },
   {
-    path: "/login",
-    component: Admin,
-    viewlogin: true,
-    loggedin: false,
+    path: "/admin",
+    component: Login,
+    admin: true,
   },
   {
     path: "/dashboard",
-    component: Admin,
-    viewlogin: false,
+    component: Dashboard,
     loggedin: true,
+  },
+  {
+    path: "/editops",
+    component: EditOps,
+    editops: true,
+    props: "",
+  },
+  {
+    path: "/imgmng",
+    component: ImgMng,
+    imgmng: true,
+  },
+  {
+    path: "/queue",
+    component: Approval,
+    queue: true,
   },
   {
     path: "/operators",
@@ -34,7 +52,7 @@ const routes = [
     path: "/operators/faction/fbi",
     component: Operators,
     viewbyfaction: true,
-    faction: 0
+    faction: 'FBI'
   },
   {
     path: "/operators/faction/gign",
@@ -42,37 +60,37 @@ const routes = [
     viewbyfaction: true,
     viewbyrelease: false,
     viewall: false,
-    faction: 4
+    faction: 'GIGN'
   },
   {
     path: "/operators/faction/sas",
     component: Operators,
     viewbyfaction: true,
-    faction: 8
+    faction: 'SAS'
   },
   {
     path: "/operators/faction/spetsnaz",
     component: Operators,
     viewbyfaction: true,
-    faction: 12
+    faction: 'Spetsnaz'
   },
   {
     path: "/operators/faction/gsg9",
     component: Operators,
     viewbyfaction: true,
-    faction: 16
+    faction: 'GSG 9'
   },
   {
     path: "/operators/faction/jtf2",
     component: Operators,
     viewbyfaction: true,
-    faction: 20
+    faction: 'JTF-2'
   },
   {
     path: "/operators/faction/seals",
     component: Operators,
     viewbyfaction: true,
-    faction: 22
+    faction: 'SEALS'
   },
   {
     path: "/operators/release",
@@ -83,19 +101,19 @@ const routes = [
     path: "/operators/release/b",
     component: Operators,
     viewbyrelease: true,
-    release: 0
+    release: 'Base'
   },
   {
     path: "/operators/release/y1",
     component: Operators,
     viewbyrelease: true,
-    release: 1
+    release: 'Year 1'
   },
   {
     path: "/operators/release/y2",
     component: Operators,
     viewbyrelease: true,
-    release: 2
+    release: 'Year 2'
   },
   {
     path: "/operators/all",

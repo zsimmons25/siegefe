@@ -1,3 +1,4 @@
+import React from "react";
 import axios from "axios";
 import * as Yup from "yup";
 import { useState } from "react";
@@ -14,8 +15,7 @@ function Login() {
     const history = useHistory();
     const REACT_APP_API_URL = "http://localhost:9001/users"
 
-    const handleLogin = (username, password, email) => {
-        console.log(formik.values)
+    const handleLogin = (username: string, password: string, email: string) => {
         axios
             .post(`${REACT_APP_API_URL}/auth/login/`, { username, password, email })
             .then((res) => {

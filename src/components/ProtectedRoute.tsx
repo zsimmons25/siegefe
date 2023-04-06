@@ -7,12 +7,12 @@ const ProtectedRoute = (props: RouteProps) => {
   const auth = useSelector((state: RootState) => state.auth);
 
   if (auth.account) {
-    if (props.path === "/login") {
-      return <Redirect to={"/"} />;
+    if (props.path === "/admin") {
+      return <Redirect to={"/dashboard"} />;
     }
     return <Route {...props} />;
   } else if (!auth.account) {
-    return <Redirect to={"/login"} />;
+    return <Redirect to={"/admin"} />;
   } else {
     return <div>User or Password Incorrect</div>;
   }

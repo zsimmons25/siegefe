@@ -1,7 +1,8 @@
 export interface AccountResponse {
     user: {
       id: string;
-      user: string;
+      email: string;
+      username: string;
       is_active: boolean;
       created: Date;
       updated: Date;
