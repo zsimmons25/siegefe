@@ -4,15 +4,14 @@ import * as Yup from "yup";
 import { useState } from "react";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import authSlice from "../store/slices/auth";
 
 
 function Login() {
-    const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
-    const history = useHistory();
+    const navigate = useNavigate();
     const REACT_APP_API_URL = "http://localhost:9001/users"
 
     const handleLogin = (username: string, password: string, email: string) => {
@@ -27,10 +26,11 @@ function Login() {
             );
             dispatch(authSlice.actions.setAccount(res.data.username));
             setLoading(false);
-            history.push("/dashboard");
+            navigate("/dashboard");
             })
             .catch((err) => {
-            setMessage("error");
+            alert('Invalid username or password.');
+            setLoading(false);
             });
     };
     const formik = useFormik({

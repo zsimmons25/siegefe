@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect, Route, RouteProps } from "react-router";
+import { Navigate, Route, RouteProps } from "react-router";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 
@@ -8,11 +8,11 @@ const ProtectedRoute = (props: RouteProps) => {
 
   if (auth.account) {
     if (props.path === "/admin") {
-      return <Redirect to={"/dashboard"} />;
+      return <Navigate to={"/dashboard"} />;
     }
     return <Route {...props} />;
   } else if (!auth.account) {
-    return <Redirect to={"/admin"} />;
+    return <Navigate to={"/admin"} />;
   } else {
     return <div>User or Password Incorrect</div>;
   }

@@ -1,51 +1,35 @@
-import React, { Component, lazy, PropsWithChildren, Suspense } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import React, { Component } from "react";
+import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom"
 import routes from "./components/Routes"
-import { Link } from 'react-router-dom';
 import store, { persistor } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
-import ProtectedRoute from "./components/ProtectedRoute"
+//import ProtectedRoute from "./components/ProtectedRoute"
 
 interface Props{
-  viewbyfaction: boolean;
-  viewbyrelease: boolean; 
-  viewall: boolean;
-  faction: string;
-  release: string;
   admin: boolean;
   loggedin: boolean;
   editops: boolean;
   imgmng: boolean;
-  queue: boolean;
+  users: boolean;
 }
 interface State{
-  viewbyfaction: boolean;
-  viewbyrelease: boolean; 
-  viewall: boolean;
-  faction: string;
-  release: string;
   admin: boolean;
   loggedin: boolean;
   editops: boolean;
   imgmng: boolean;
-  queue: boolean;
+  users: boolean;
 }
 
 class App extends Component <Props, State>{
   constructor(props: Props) {
     super(props);
     this.state = {
-      viewbyfaction: props.viewbyfaction,
-      viewbyrelease: props.viewbyrelease,
-      viewall: props.viewall,
-      faction: props.faction,
-      release: props.release,
       admin: props.admin,
       loggedin: props.loggedin,
       editops: props.editops,
       imgmng: props.imgmng,
-      queue: props.queue,
+      users: props.users,
     } as State;
   }
   render() {
@@ -55,25 +39,34 @@ class App extends Component <Props, State>{
           <Router>
             <div className='flex items-center justify-between'>
               <Link to="/operators">
-              <button className="btn btn-default mx-4 text-slate-200">Ops</button>
+                <button className="btn btn-default mx-4 text-slate-200">Ops</button>
               </Link>
               <h1 className='text text-slate-200'>R6 Counter</h1>
               <Link to="/admin">
-              <button className="btn btn-default mx-4 text-slate-200">Admin</button>
+                <button className="btn btn-default mx-4 text-slate-200">Admin</button>
               </Link>
             </div>
-            {routes.map(({ path, component: C, viewbyfaction, viewbyrelease, viewall, faction, release, admin}) => (
-              <Route
-              key={path}
-              path={path}
-              exact
-              render={(props) => <C {...props} viewbyfaction={viewbyfaction} viewbyrelease={viewbyrelease} viewall={viewall} faction={faction} release={release} admin={admin}/>}
-              />
-            ))}
+            <Routes>
+              {routes.map((route) => (
+                <Route
+                  key={route.path}
+                  path={route.path}
+                  element={React.cloneElement(route.element, route.props)}
+                >
+                  {route.children?.map((childRoute) => (
+                    <Route
+                      key={childRoute.path}
+                      path={childRoute.path}
+                      element={React.cloneElement(childRoute.element, childRoute.props)}
+                    />
+                  ))}
+                </Route>
+              ))}
+            </Routes>
           </Router>
         </PersistGate>
       </Provider>
-    )
+    );
   }
 }
 

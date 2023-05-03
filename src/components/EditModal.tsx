@@ -1,9 +1,10 @@
-import React, { useState, Component } from "react";
+import React, { Component } from "react";
 import { Formik, Form, Field } from "formik";
-import { isTemplateElement } from "@babel/types";
+import axios from "axios";
 
 interface Props{
     activeItem: {
+        id: number;
         operator: string;
         faction: string;
         gadget: string;
@@ -29,6 +30,7 @@ interface Props{
   }
   interface State{
     activeItem: {
+        id: number;
         operator: string;
         faction: string;
         gadget: string;
@@ -63,28 +65,51 @@ export default class EditModal extends Component <Props, State> {
         } as State;
       }
       initialValues = {
-        Operator: this.props.activeItem.operator,
-        Faction: this.props.activeItem.faction,
-        Gadget: this.props.activeItem.gadget,
-        Equip1: this.props.activeItem.equip1,
-        Equip2: this.props.activeItem.equip2,
-        Armor: this.props.activeItem.armor,
-        Speed: this.props.activeItem.speed,
-        Side: this.props.activeItem.side,
-        Primary1: this.props.activeItem.prim1,
-        Primary2: this.props.activeItem.prim2,
-        Primary3: this.props.activeItem.prim3,
-        Secondary1: this.props.activeItem.secon1,
-        Secondary2: this.props.activeItem.secon2,
-        Release: this.props.activeItem.release,
-        Counter1: this.props.activeItem.count1,
-        Counter2: this.props.activeItem.count2,
-        Counter1p: this.props.activeItem.count1p,
-        Counter2p: this.props.activeItem.count2p,
+        id: this.props.activeItem.id,
+        operator: this.props.activeItem.operator,
+        faction: this.props.activeItem.faction,
+        gadget: this.props.activeItem.gadget,
+        equip1: this.props.activeItem.equip1,
+        equip2: this.props.activeItem.equip2,
+        armor: this.props.activeItem.armor,
+        speed: this.props.activeItem.speed,
+        side: this.props.activeItem.side,
+        prim1: this.props.activeItem.prim1,
+        prim2: this.props.activeItem.prim2,
+        prim3: this.props.activeItem.prim3,
+        secon1: this.props.activeItem.secon1,
+        secon2: this.props.activeItem.secon2,
+        release: this.props.activeItem.release,
+        count1: this.props.activeItem.count1,
+        count2: this.props.activeItem.count2,
+        count1p: this.props.activeItem.count1p,
+        count2p: this.props.activeItem.count2p,
       };
-    onSubmit = (values: any) => {
+      refreshList = () => {
+        axios
+          .get("http://localhost:9001/api/operators/")
+          .then((res) => this.setState({ activeItem: res.data }))
+          .catch((err) => console.log(err));
+      };
+      onSubmit = (values: JSON) => {
+        const activeItem = this.state.activeItem;
         console.log(values);
-    };
+        axios({
+          method: 'PUT',
+          url: `http://localhost:9001/api/operators/${activeItem.id}/`,
+          data: values,
+          headers: {
+              'Content-Type': "application/json",
+            },
+        })
+          .then(function (res) {
+             console.log(res);
+             alert('Changes submitted');
+          })
+          .catch(function (res) {
+             console.log(res)
+        });
+      };
     render() {
         const { toggle } = this.props;
         return(
@@ -96,82 +121,82 @@ export default class EditModal extends Component <Props, State> {
                             <div className="flex flex-wrap">
                                 <div className="flex flex-col mx-1">
                                     <span>Operator</span>
-                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="Operator" />
+                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="operator" />
                                 </div>
                                 <div className="flex flex-col mx-1">
                                     <span>Faction</span>
-                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="Faction" />
+                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="faction" />
                                 </div>
                                 <div className="flex flex-col mx-1">
                                     <span>Gadget</span>
-                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="Gadget" />
+                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="gadget" />
                                 </div>
                                 <div className="flex flex-col mx-1">
                                     <span>Equip1</span>
-                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="Equip1" />
+                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="equip1" />
                                 </div>
                                 <div className="flex flex-col mx-1">
                                     <span>Equip2</span>
-                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="Equip2" />
+                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="equip2" />
                                 </div>
                                 <div className="flex flex-col mx-1">
                                     <span>Armor</span>
-                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="Armor" />
+                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="armor" />
                                 </div>
                                 <div className="flex flex-col mx-1">
                                     <span>Speed</span>
-                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="Speed" />
+                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="speed" />
                                 </div>
                                 <div className="flex flex-col mx-1">
                                     <span>Side</span>
-                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="Side" />
+                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="side" />
                                 </div>
                                 <div className="flex flex-col mx-1">
                                     <span>Primary 1</span>
-                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="Primary1" />
+                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="prim1" />
                                 </div>
                                 <div className="flex flex-col mx-1">
                                     <span>Primary 2</span>
-                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="Primary2" />
+                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="prim2" />
                                 </div>
                                 <div className="flex flex-col mx-1">
                                     <span>Primary 3</span>
-                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="Primary3" />
+                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="prim3" />
                                 </div>
                                 <div className="flex flex-col mx-1">
                                     <span>Secondary 1</span>
-                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="Secondary1" />
+                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="secon1" />
                                 </div>
                                 <div className="flex flex-col mx-1">
                                     <span>Secondary 2</span>
-                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="Secondary2" />
+                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="secon2" />
                                 </div>
                                 <div className="flex flex-col mx-1">
                                     <span>Release</span>
-                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="Release" />
+                                    <Field className="bg-zinc-800 text-neutral-300" type="text" name="release" />
                                 </div>
                             </div>
                             <h3>Counters</h3>
                             <div className="flex">
                                 <div className="flex flex-col w-1/2 mx-1">
-                                <Field className="bg-zinc-800 text-neutral-300" as="select" name="Counter1">
+                                <Field className="bg-zinc-800 text-neutral-300" as="select" name="count1">
                                 {this.props.data.map((item => (
                                     <option key={item.id} value={item.operator}>
                                     {item.operator}
                                     </option>
                                 )))}
                                 </Field>
-                                <Field className="bg-zinc-800 text-neutral-300 h-40 mt-2" as="textarea" name="Counter1p" />
+                                <Field className="bg-zinc-800 text-neutral-300 h-40 mt-2" as="textarea" name="count1p" />
                                 </div>
                                 <div className="flex flex-col w-1/2 mx-1">
-                                <Field className="bg-zinc-800 text-neutral-300" as="select" name="Counter2">
+                                <Field className="bg-zinc-800 text-neutral-300" as="select" name="count2">
                                 {this.props.data.map((item => (
                                     <option key={item.id} value={item.operator}>
                                     {item.operator}
                                     </option>
                                 )))}
                                 </Field>
-                                <Field className="bg-zinc-800 text-neutral-300 h-40 mt-2" as="textarea" name="Counter2p" />
+                                <Field className="bg-zinc-800 text-neutral-300 h-40 mt-2" as="textarea" name="count2p" />
                                 </div>
                             </div>
                             <div className="flex items-center justify-center">

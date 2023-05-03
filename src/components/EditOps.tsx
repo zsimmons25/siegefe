@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import EditModal from "./EditModal";
 
@@ -22,11 +22,23 @@ interface Props{
 }
 
 const Editops: React.FC<Props> = (props) => {
+  const getallops = useCallback(() => {
+    axios
+    .get("http://localhost:9001/api/operators/")
+    .then(response => {
+      setData(response.data);
+      setLoading(false);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }, [])
   useEffect(() => {
     getallops();
-  }, []);
+  }, [getallops]);
   const [state, setState] = useState({
     activeItem: {
+      id: "",
       operator: "",
       faction: "",
       gadget: "",
@@ -45,32 +57,43 @@ const Editops: React.FC<Props> = (props) => {
     setState({ ...state, activeItem: item, modal: !state.modal });
   };
   const deleteItem = (item: any) => {
-    console.log("Operator Deleted")
+    axios
+      .delete(`http://localhost:9001/api/operators/${item.id}/`)
+      .then(function (res) {
+        console.log(res);
+        getallops();
+        alert('Operator Deleted');
+     })
   };
   const toggle = () => {
     setState({ ...state, modal: !state.modal });
   };
   const addOp = () => {
-    console.log("New Operator Added")
+    const newid = 26;
+    axios({
+      method: 'POST',
+      url: `http://localhost:9001/api/operators/`,
+      data: {id: newid,operator:"New Operator",faction:"_",gadget:"_",equip1:"_",equip2:"_",armor:1,speed:1,side:"_",prim1:"_",prim2:"_",prim3:"_",secon1:"_",secon2:"_",count1:"_",count1p:"_",count2:"_",count2p:"_",release:"_"},
+      headers: {
+          'Content-Type': 'application/json',
+        },
+    })
+      .then(function (res) {
+         console.log(res);
+         getallops();
+         alert('Operator Added');
+      })
+      .catch(function (res) {
+         console.log(res);
+    });
   };
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const getallops = () => {
-    axios
-    .get("http://localhost:9001/api/operators/")
-    .then(response => {
-      setData(response.data);
-      setLoading(false);
-    })
-    .catch(error => {
-      console.log(error);
-    });
-  }
+  const [, setLoading] = useState(true);
   return (
     <div className="flex flex-col items-center h-full">
         <div className="mt-4 flex flex-col items-center justify-center bg-zinc-700 w-1/2 h-fit ">
             <h2 className="text text-slate-200 text-center w-full">Operators</h2>
-            <h3 className="bg-slate-900 h-1.5 w-full"></h3>
+            <div className="bg-slate-900 h-1.5 w-full"></div>
             <div className="flex flex-col items-center w-full h-fit">
               <table className="table-auto w-full h-fit bg-zinc-700 text-slate-200">
                 <thead>
@@ -78,7 +101,6 @@ const Editops: React.FC<Props> = (props) => {
                 <tbody>
                   {data.map(item => (
                     <tr key={item.id} className='flex justify-between mx-4 mt-2'>
-                      <td>{item.id}</td>
                       <td className="w-3/4 text-center">{item.operator}</td>
                       <td><button onClick={() => viewItem(item)}>Edit</button></td>
                       <td><button onClick={() => deleteItem(item)}>Delete</button></td>
